@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Student</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0; /* light gray background */
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 20px;
+            background-color: #fff; /* white background */
+            border: 1px solid #ddd; /* light gray border */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* subtle shadow */
+        }
+        
+        h1 {
+            color: #337ab7; /* blue color for heading */
+            margin-bottom: 20px;
+        }
+        
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        label {
+            margin-bottom: 10px;
+        }
+        
+        input[type="text"] {
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        
+        .button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            color: #fff; /* white text color */
+        }
+        
+        .add-button {
+            background-color: #4CAF50; /* green background for add button */
+        }
+        
+        .back-button {
+            background-color: #03A9F4; /* blue background for back button */
+        }
+        
+        .button:hover {
+            opacity: 0.8; /* slight opacity on hover */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Add New Student</h1>
+        <form id="studentForm">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required>
+            <label for="address">Address:</label>
+            <input type="text" id="address" name="address" required>
+      
+            <button class="button add-button" type="submit">Add Student</button>
+        </form>
+        
+        <a href="Home.html" class="button back-button">Back to Student List</a>
+    </div>
+
+
+    <script>
+        // Handle form submission
+        document.getElementById('studentForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent the form from submitting the traditional way
+            alert('Student data added successfully!');
+
+            // Collect form data
+            
+            const name = document.getElementById('name').value;
+            const address = document.getElementById('address').value;
+
+            // Send POST request
+            fetch('http://localhost:9009/student/add', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                  
+                    name: name,
+                    address: address
+            
+                })
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok ' + response.statusText);
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('Student data added:', data);
+                alert('Student data added successfully!');
+                // Optionally redirect to the student list page
+                window.location.href = 'getStudent.html';
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        });
+    </script>
+</body>
+</html>

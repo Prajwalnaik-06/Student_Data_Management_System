@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Data List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #fdfdfd; /* light gray background */
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 20px;
+            background-color: #ffffff; /* white background */
+            border: 1px solid #ddd; /* light gray border */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* subtle shadow */
+        }
+        
+        h1 {
+            color: #333; /* dark gray text color */
+            margin-bottom: 20px;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            border: 1px solid #ddd; /* light gray border */
+        }
+        
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border: 1px solid #e26f6f; /* light gray border */
+        }
+        
+        th {
+            background-color: #3fbaef; /* light gray background */
+        }
+        
+        .button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            color: #fff; /* white text color */
+        }
+        
+        .button:hover {
+            opacity: 0.8; /* slight opacity on hover */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Student Data List</h1>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Address</th>
+              
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Data rows will be inserted here -->
+                <tr>
+                    <td> </td>
+                    <td> </td>
+                    <td> </td>
+                   
+                </tr>
+            </tbody>
+        </table>
+
+        
+    </div>
+</body>
+</html>
+
+
+
+    <script>
+        // Function to populate table with fetched data
+        function populateTable(data) {
+            const tableBody = document.querySelector('tbody');
+            tableBody.innerHTML = ''; // Clear existing rows
+            data.forEach(item => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${item.id}</td>
+                    <td>${item.name}</td>
+                    <td>${item.address}</td>
+                `;
+                tableBody.appendChild(row);
+            });
+        }
+
+        // Fetch data from the API
+        function fetchData() {
+            fetch('http://localhost:9009/student/getAll', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok ' + response.statusText);
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('Success:', data);
+                populateTable(data);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+
+        // Initial fetch to populate the table
+        fetchData();
+    </script>
+</body>
+</html>
